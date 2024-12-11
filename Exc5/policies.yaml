@@ -1,0 +1,106 @@
+# Deny all traffic
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: deny-all
+  namespace: security
+spec:
+  podSelector: {}
+  policyTypes:
+  - Ingress
+  - Egress
+  ingress:
+    - from: []
+  egress:
+    - to: []
+
+---
+
+# NetworkPolicy for front-end to back-end-api
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: non-admin-api-allow
+  namespace: security
+spec:
+  podSelector:
+    matchLabels:
+      app: back-end-api
+  ingress:
+  - from:
+    - podSelector:
+        matchLabels:
+          app: front-end
+  egress:
+  - to:
+    - podSelector:
+        matchLabels:
+          app: front-end
+---
+
+# NetworkPolicy for back-end-api to front-end
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: non-admin-front-end-allow
+  namespace: security
+spec:
+  podSelector:
+    matchLabels:
+      app: front-end
+  ingress:
+  - from:
+    - podSelector:
+        matchLabels:
+          app: back-end-api
+  egress:
+  - to:
+    - podSelector:
+        matchLabels:
+          app: back-end-api
+
+---
+
+# NetworkPolicy for admin-front-end to admin-back-end-api
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: admin-api-allow
+  namespace: security
+spec:
+  podSelector:
+    matchLabels:
+      app: admin-back-end-api
+  ingress:
+  - from:
+    - podSelector:
+        matchLabels:
+          app: admin-front-end
+  egress:
+  - to:
+    - podSelector:
+        matchLabels:
+          app: admin-front-end
+
+---
+
+# NetworkPolicy for admin-back-end-api to admin-front-end
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: admin-front-end-allow
+  namespace: security
+spec:
+  podSelector:
+    matchLabels:
+      app: admin-front-end
+  ingress:
+  - from:
+    - podSelector:
+        matchLabels:
+          app: admin-back-end-api
+  egress:
+  - to:
+    - podSelector:
+        matchLabels:
+          app: admin-back-end-api
