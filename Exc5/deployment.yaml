@@ -1,0 +1,88 @@
+---
+# Deployment for front-end
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: front-end
+  namespace: security
+  labels:
+    app: front-end
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: front-end
+  template:
+    metadata:
+      labels:
+        app: front-end
+    spec:
+      containers:
+      - name: nginx
+        image: nginx
+---
+# Deployment for back-end-api
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: back-end-api
+  namespace: security
+  labels:
+    app: back-end-api
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: back-end-api
+  template:
+    metadata:
+      labels:
+        app: back-end-api
+    spec:
+      containers:
+      - name: nginx
+        image: nginx
+---
+# Deployment for admin-front-end
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: admin-front-end
+  namespace: security
+  labels:
+    app: admin-front-end
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: admin-front-end
+  template:
+    metadata:
+      labels:
+        app: admin-front-end
+    spec:
+      containers:
+      - name: nginx
+        image: nginx
+---
+# Deployment for admin-back-end-api
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: admin-back-end-api
+  namespace: security
+  labels:
+    app: admin-back-end-api
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: admin-back-end-api
+  template:
+    metadata:
+      labels:
+        app: admin-back-end-api
+    spec:
+      containers:
+      - name: nginx
+        image: nginx
